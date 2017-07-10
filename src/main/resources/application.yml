@@ -1,0 +1,9 @@
+management.security.enabled: false
+
+# app properties
+message: message(application.yml)
+property: property(application.yml)
+
+# secrets
+username: username(application.yml)
+secret: secret(application.yml)

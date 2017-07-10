@@ -1,0 +1,74 @@
+metadata:
+  annotations:
+    configmap.fabric8.io/update-on-change: ${project.artifactId}
+  labels:
+    expose: true
+    hystrix.enabled: true
+    hystrix.cluster: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        project: ${project.artifactId}
+        hystrix.enabled: true
+        hystrix.cluster: default
+        version: ${project.version}
+    spec:
+      volumes:
+        # use configmap application.properties to override the app application.yml
+        - name: config-volume
+          configMap:
+            name: ${project.artifactId}
+            items:
+            - key: application.properties
+              path: application.properties
+        - name: secrets-volume
+          secret:
+            secretName: demo-secrets
+# disabled due to https://github.com/openshift/origin/issues/10792 It is still possible to use it but you need to update the SCC
+#        - name: git
+#          gitRepo:
+#            repository: 'https://github.com/jstrachan/sample-springboot-config.git'
+#            revision: 667ee4db6bc842b127825351e5c9bae5a4fb2147
+#            directory: .
+      containers:
+        -
+          resources:
+            requests:
+              cpu: "0.2"
+              memory: 256Mi
+            limits:
+              cpu: "1.0"
+              memory: 256Mi
+          # environment variables take precedence over properties of application.yml and configmap. You can comment them and check the difference with the /properties endpoint result
+          env:
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: ${project.artifactId}
+                  key: message
+            - name: PROPERTY
+              valueFrom:
+                configMapKeyRef:
+                  name: ${project.artifactId}
+                  key: property
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: demo-secrets
+                  key: username
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: demo-secrets
+                  key: secret
+          volumeMounts:
+            - name: config-volume
+              mountPath: /deployments/config
+            - name: secrets-volume # name must match the volume name
+              mountPath: /deployments/secrets
+              readOnly: true
+# disabled due to https://github.com/openshift/origin/issues/10792 It is still possible to use it but you need to update the SCC
+#            - name: git
+#              mountPath: /deployments/git

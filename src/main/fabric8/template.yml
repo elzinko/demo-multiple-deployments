@@ -1,0 +1,11 @@
+parameters:
+- description: Password for Gitlab
+  displayName: Gitlab Password
+  value: cidi%402017
+  name: GITLAB_PASSWORD
+  required: true
+- description: Username for Gitlab
+  displayName: Gitlab User
+  name: GITLAB_USER
+  required: true
+  value: cd

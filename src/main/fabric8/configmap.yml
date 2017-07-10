@@ -1,0 +1,8 @@
+metadata:
+  name: ${project.artifactId}
+data:
+  message: message(configmap/data)
+  property: property(configmap/data)
+  application.properties: |-
+    message=Hello world! my IP address is (configmap/application.properties)
+    property=property(configmap/application.properties)
