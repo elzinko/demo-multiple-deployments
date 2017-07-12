@@ -17,16 +17,4 @@ public class DemoController {
         return greetingService.getIP();
     }
 
-    @RequestMapping("/hystrix-external-service")
-    public String getExternalService() {
-        return greetingService.getExternalService();
-    }
-    
-    @RequestMapping("/properties")
-    public String getProperties() {
-    	return greetingService.getProperties();
-    }
-    
-    
-
 }
