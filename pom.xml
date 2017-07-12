@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.edelia.cd</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>demo-multiple-deployments</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
 	<name>Demo :: Spring-Boot :: Openshift :: Fabric8</name>
